@@ -25,7 +25,36 @@ function ListAssignment(props) {
   }
   
   
-    const headers = ['Assignment Name', 'Course Title', 'Due Date', ' ', ' ', ' '];
+
+  const dropAssignment = (event) => {
+    setMessage('');
+    const row_id = event.target.parentNode.parentNode.rowIndex - 1;
+    console.log("drop assignment "+row_id);
+    const assignment_id = assignments[row_id].id;
+    
+    if (window.confirm('Are you sure you want to drop the course?')) {
+        fetch(`${SERVER_URL}/assignment/${assignment_id}`,
+        {
+            method: 'DELETE',
+        }
+        )
+    .then(res => {
+        if (res.ok) {
+            console.log("drop ok");
+            setMessage("Course dropped.");
+            fetchAssignments();
+        } else {
+            console.log("drop error");
+            setMessage("Error dropCourse. "+res.status);
+        }
+        })
+    .catch( (err) => {
+        console.log("exception dropAssignment "+err);
+        setMessage("Exception. "+err);
+     } );
+    }
+} 
+      const headers = ['Assignment Name', 'Course Title', 'Due Date', ' ', ' ', ' '];
     
     return (
       <div>
@@ -48,7 +77,7 @@ function ListAssignment(props) {
                         <Link to={`/gradeAssignment/${assignments[idx].id}`} >Grade</Link>
                       </td>
                       <td>Edit</td>
-                      <td>Delete</td>
+                      <td><button type="button" margin="auto" onClick={dropAssignment}>Drop</button></td>
                     </tr>
                   ))}
                 </tbody>
