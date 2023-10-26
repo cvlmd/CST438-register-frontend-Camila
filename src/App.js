@@ -16,7 +16,7 @@ function App() {
             <Link to="/admin">Admin</Link> |
             <Link to="/login">Login</Link>  
           </nav>
-          [06:15] Coralie Rouveyrol
+          
 
 <Switch>
 
